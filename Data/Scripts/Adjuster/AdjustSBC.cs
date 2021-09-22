@@ -50,7 +50,7 @@ namespace ModAdjuster
                                 continue;
                             }
 
-                            if (id.TypeId == ComponentType)
+                            if (id.TypeId.ToString() == "MyObjectBuilder_Component")
                                 comp = MyDefinitionManager.Static.GetComponentDefinition(id);
                             else
                                 item = MyDefinitionManager.Static.GetPhysicalItemDefinition(id);
