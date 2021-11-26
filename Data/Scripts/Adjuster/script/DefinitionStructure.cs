@@ -36,7 +36,9 @@
                     ChangeMaxPowerOutput,
                     ChangeUpgradeModifier,
                     ChangeSensorRadius,
-                    ChangeCutOutRadius
+                    ChangeCutOutRadius,
+                    ChangeThrustForce,
+                    ChangeThrustPowerConsumption
                 }
             }
         }

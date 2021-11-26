@@ -147,6 +147,14 @@ namespace ModAdjuster
                             case BlockMod.ChangeCutOutRadius:
                                 (blockDef as MyShipDrillDefinition).CutOutRadius = action.Value;
                                 break;
+
+                            case BlockMod.ChangeThrustForce:
+                                (blockDef as MyThrustDefinition).ForceMagnitude = action.Value;
+                                break;
+
+                            case BlockMod.ChangeThrustPowerConsumption:
+                                (blockDef as MyThrustDefinition).MaxPowerConsumption = action.Value;
+                                break;
                         }
                     }
                 }
