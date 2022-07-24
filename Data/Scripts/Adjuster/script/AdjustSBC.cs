@@ -240,7 +240,10 @@ namespace ModAdjuster
             float intDiff = comp.MaxIntegrity * count;
             float massDiff = comp.Mass * count;
 
-            blockDef.CriticalGroup += 1;
+            if (index <= blockDef.CriticalGroup)
+            {
+                blockDef.CriticalGroup += 1;
+            }
 
             blockDef.MaxIntegrity += intDiff;
             blockDef.Mass += massDiff;
