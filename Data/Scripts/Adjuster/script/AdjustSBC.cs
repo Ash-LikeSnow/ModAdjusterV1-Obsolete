@@ -240,7 +240,10 @@ namespace ModAdjuster
             float intDiff = comp.MaxIntegrity * count;
             float massDiff = comp.Mass * count;
 
-            blockDef.CriticalGroup += 1;
+            if (index <= blockDef.CriticalGroup)
+            {
+                blockDef.CriticalGroup += 1;
+            }
 
             blockDef.MaxIntegrity += intDiff;
             blockDef.Mass += massDiff;
@@ -283,24 +286,31 @@ namespace ModAdjuster
 
         internal void SetRatios(int criticalIndex)
         {
-            int i;
-            float integrity = 0f;
-            for (i = 0; i < criticalIndex; i++)
+            var criticalIntegrity = 0f;
+            var ownershipIntegrity = 0f;
+            for (var index = 0; index <= criticalIndex; index++)
             {
-                integrity += blockDef.Components[i].Count * blockDef.Components[i].Definition.MaxIntegrity;
-            }
-            blockDef.CriticalIntegrityRatio = integrity / blockDef.MaxIntegrity;
-
-            integrity += blockDef.Components[criticalIndex].Count * blockDef.Components[criticalIndex].Definition.MaxIntegrity;
-            blockDef.OwnershipIntegrityRatio = integrity / blockDef.MaxIntegrity;
-
-            int count = blockDef.BuildProgressModels.Length;
-            for (i = 0; i < count; i++)
-            {
-                float buildPercent = (i + 1) / count;
-                blockDef.BuildProgressModels[i].BuildRatioUpperBound = buildPercent * blockDef.CriticalIntegrityRatio;
+                var component = blockDef.Components[index];
+                if (ownershipIntegrity == 0f && component.Definition.Id.SubtypeName == "Computer")
+                {
+                    ownershipIntegrity = criticalIntegrity + component.Definition.MaxIntegrity;
+                }
+                criticalIntegrity += component.Count * component.Definition.MaxIntegrity;
+                if (index == criticalIndex)
+                {
+                    criticalIntegrity -= component.Definition.MaxIntegrity;
+                }
             }
 
+            blockDef.CriticalIntegrityRatio = criticalIntegrity / blockDef.MaxIntegrity;
+            blockDef.OwnershipIntegrityRatio = ownershipIntegrity / blockDef.MaxIntegrity;
+
+            var count = blockDef.BuildProgressModels.Length;
+            for (var index = 0; index < count; index++)
+            {
+                var buildPercent = (index + 1f) / count;
+                blockDef.BuildProgressModels[index].BuildRatioUpperBound = buildPercent * blockDef.CriticalIntegrityRatio;
+            }
         }
 
         internal void InsertItem(int index, MyDefinitionId id, MyFixedPoint amount, MyBlueprintDefinitionBase.Item[] items, out MyBlueprintDefinitionBase.Item[] updatedItems)
