@@ -63,7 +63,8 @@ namespace ModAdjuster
 
                         }
 
-                        if (action.Index != 0 && action.Index >= blockDef.Components.Length || action.Index < 0)
+                        var maxIndex = action.Action == BlockMod.InsertComponent ? blockDef.Components.Length : blockDef.Components.Length - 1;
+                        if (action.Index > maxIndex || action.Index < 0)
                         {
                             MyLog.Default.WriteLine($"[ModAdjuster] Index out of range: {block.BlockName}, Index = {action.Index}");
                             continue;
