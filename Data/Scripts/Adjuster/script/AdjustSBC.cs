@@ -85,6 +85,7 @@ namespace ModAdjuster
                                 break;
 
                             case BlockMod.ChangeBlockName:
+                                blockDef.DisplayNameEnum = null;
                                 blockDef.DisplayNameString = action.NewText;
                                 break;
 
