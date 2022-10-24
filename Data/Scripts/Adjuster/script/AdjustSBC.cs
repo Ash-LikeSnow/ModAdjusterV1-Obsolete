@@ -114,6 +114,10 @@ namespace ModAdjuster
                                 blockDef.DescriptionString = action.NewText;
                                 break;
 
+                            case BlockMod.ChangeIcon:
+                                blockDef.Icons = new string[] { action.NewText };
+                                break;
+
                             case BlockMod.ChangePCU:
                                 blockDef.PCU = (int)action.Value;
                                 break;

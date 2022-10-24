@@ -38,7 +38,8 @@
                     ChangeSensorRadius,
                     ChangeCutOutRadius,
                     ChangeThrustForce,
-                    ChangeThrustPowerConsumption
+                    ChangeThrustPowerConsumption,
+                    ChangeIcon,
                 }
             }
         }
