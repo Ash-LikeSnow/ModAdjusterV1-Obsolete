@@ -7,7 +7,7 @@ namespace ModAdjuster
 {
     public class BlueprintDefinitions
     {
-        public static List<BlueprintDef> BlueprintDefs = new List<BlueprintDef>()
+        public List<BlueprintDef> Definitions = new List<BlueprintDef>()
         {   
             // List of blueprints to modify. Can be as many or few as desired
             new BlueprintDef()

@@ -7,7 +7,7 @@ namespace ModAdjuster
 {
     public class BlockDefinitions
     {
-        public static List<BlockDef> BlockDefs = new List<BlockDef>()
+        public List<BlockDef> Definitions = new List<BlockDef>()
         {
             // List of blocks to modify. Can be as many or few as desired
             new BlockDef()

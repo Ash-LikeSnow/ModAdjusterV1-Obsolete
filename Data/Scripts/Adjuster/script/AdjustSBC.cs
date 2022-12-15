@@ -12,9 +12,13 @@ namespace ModAdjuster
     [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
     public class AdjustSBC : MySessionComponentBase
     {
-        internal MyCubeBlockDefinition blockDef = new MyCubeBlockDefinition();
-        internal Dictionary<MyCubeBlockDefinition, float> resist = new Dictionary<MyCubeBlockDefinition, float>();
-        internal MyBlueprintDefinitionBase bpDef;
+        internal BlockDefinitions BlockDefs = new BlockDefinitions();
+        internal BlueprintDefinitions BlueprintDefs = new BlueprintDefinitions();
+
+        internal MyCubeBlockDefinition BlockDef = new MyCubeBlockDefinition();
+        internal MyBlueprintDefinitionBase BpDef;
+
+        internal Dictionary<MyCubeBlockDefinition, float> Resists = new Dictionary<MyCubeBlockDefinition, float>();
 
         public override void LoadData()
         {
@@ -27,14 +31,28 @@ namespace ModAdjuster
         public override void BeforeStart()
         {
             BeforeStartStuff();
+
+            Clean();
+        }
+
+        internal void Clean()
+        {
+            BlockDefs.Definitions.Clear();
+            BlueprintDefs.Definitions.Clear();
+            BlockDefs = null;
+            BlueprintDefs = null;
+            BlockDef = null;
+            BpDef = null;
+
+            Resists.Clear();
         }
 
         internal void AdjustBlocks()
         {
-            foreach (var block in BlockDefinitions.BlockDefs)
+            foreach (var block in BlockDefs.Definitions)
             {
                 var defId = MyDefinitionId.Parse(block.BlockName);
-                if (MyDefinitionManager.Static.TryGetCubeBlockDefinition(defId, out blockDef))
+                if (MyDefinitionManager.Static.TryGetCubeBlockDefinition(defId, out BlockDef))
                 {
                     foreach (var action in block.BlockActions)
                     {
@@ -63,7 +81,7 @@ namespace ModAdjuster
 
                         }
 
-                        var maxIndex = action.Action == BlockMod.InsertComponent ? blockDef.Components.Length : blockDef.Components.Length - 1;
+                        var maxIndex = action.Action == BlockMod.InsertComponent ? BlockDef.Components.Length : BlockDef.Components.Length - 1;
                         if (action.Index > maxIndex || action.Index < 0)
                         {
                             MyLog.Default.WriteLine($"[ModAdjuster] Index out of range: {block.BlockName}, Index = {action.Index}");
@@ -73,20 +91,20 @@ namespace ModAdjuster
                         switch (action.Action)
                         {
                             case BlockMod.DisableBlockDefinition:
-                                blockDef.Enabled = false;
+                                BlockDef.Enabled = false;
                                 break;
 
                             case BlockMod.ChangeBlockPublicity:
-                                blockDef.Public = !blockDef.Public;
+                                BlockDef.Public = !BlockDef.Public;
                                 break;
 
                             case BlockMod.ChangeBlockGuiVisibility:
-                                blockDef.GuiVisible = !blockDef.GuiVisible;
+                                BlockDef.GuiVisible = !BlockDef.GuiVisible;
                                 break;
 
                             case BlockMod.ChangeBlockName:
-                                blockDef.DisplayNameEnum = null;
-                                blockDef.DisplayNameString = action.NewText;
+                                BlockDef.DisplayNameEnum = null;
+                                BlockDef.DisplayNameString = action.NewText;
                                 break;
 
                             case BlockMod.InsertComponent:
@@ -102,64 +120,64 @@ namespace ModAdjuster
                                 break;
 
                             case BlockMod.ChangeCriticalComponentIndex:
-                                blockDef.CriticalGroup = (ushort)action.Index;
+                                BlockDef.CriticalGroup = (ushort)action.Index;
                                 SetRatios(action.Index);
                                 break;
 
                             case BlockMod.ChangeComponentDeconstructId:
-                                blockDef.Components[action.Index].DeconstructItem = item ?? comp;
+                                BlockDef.Components[action.Index].DeconstructItem = item ?? comp;
                                 break;
 
                             case BlockMod.ChangeBlockDescription:
-                                blockDef.DescriptionString = action.NewText;
+                                BlockDef.DescriptionString = action.NewText;
                                 break;
 
                             case BlockMod.ChangeIcon:
-                                blockDef.Icons = new string[] { action.NewText };
+                                BlockDef.Icons = new string[] { action.NewText };
                                 break;
 
                             case BlockMod.ChangePCU:
-                                blockDef.PCU = (int)action.Value;
+                                BlockDef.PCU = (int)action.Value;
                                 break;
 
                             case BlockMod.ChangeDeformationRatio:
-                                blockDef.DeformationRatio = action.Value;
+                                BlockDef.DeformationRatio = action.Value;
                                 break;
 
                             case BlockMod.ChangeResistance:
-                                resist[blockDef] = action.Value;
+                                Resists[BlockDef] = action.Value;
                                 break;
 
                             case BlockMod.ChangeBuildTime:
-                                blockDef.IntegrityPointsPerSec = blockDef.MaxIntegrity / action.Value;
+                                BlockDef.IntegrityPointsPerSec = BlockDef.MaxIntegrity / action.Value;
                                 break;
 
                             case BlockMod.ChangeFuelMultiplier:
-                                (blockDef as MyHydrogenEngineDefinition).FuelProductionToCapacityMultiplier = action.Value;
+                                (BlockDef as MyHydrogenEngineDefinition).FuelProductionToCapacityMultiplier = action.Value;
                                 break;
 
                             case BlockMod.ChangeMaxPowerOutput:
-                                (blockDef as MyPowerProducerDefinition).MaxPowerOutput = action.Value;
+                                (BlockDef as MyPowerProducerDefinition).MaxPowerOutput = action.Value;
                                 break;
 
                             case BlockMod.ChangeUpgradeModifier:
-                                (blockDef as MyUpgradeModuleDefinition).Upgrades[0].Modifier = action.Value;
+                                (BlockDef as MyUpgradeModuleDefinition).Upgrades[0].Modifier = action.Value;
                                 break;
 
                             case BlockMod.ChangeSensorRadius:
-                                (blockDef as MyShipToolDefinition).SensorRadius = action.Value;
+                                (BlockDef as MyShipToolDefinition).SensorRadius = action.Value;
                                 break;
 
                             case BlockMod.ChangeCutOutRadius:
-                                (blockDef as MyShipDrillDefinition).CutOutRadius = action.Value;
+                                (BlockDef as MyShipDrillDefinition).CutOutRadius = action.Value;
                                 break;
 
                             case BlockMod.ChangeThrustForce:
-                                (blockDef as MyThrustDefinition).ForceMagnitude = action.Value;
+                                (BlockDef as MyThrustDefinition).ForceMagnitude = action.Value;
                                 break;
 
                             case BlockMod.ChangeThrustPowerConsumption:
-                                (blockDef as MyThrustDefinition).MaxPowerConsumption = action.Value;
+                                (BlockDef as MyThrustDefinition).MaxPowerConsumption = action.Value;
                                 break;
                         }
                     }
@@ -170,11 +188,11 @@ namespace ModAdjuster
 
         internal void AdjustBlueprints()
         {
-            foreach (var bp in BlueprintDefinitions.BlueprintDefs)
+            foreach (var bp in BlueprintDefs.Definitions)
             {
                 var defId = MyDefinitionId.Parse(bp.BlueprintName);
-                bpDef = MyDefinitionManager.Static.GetBlueprintDefinition(defId);
-                if (bpDef == null)
+                BpDef = MyDefinitionManager.Static.GetBlueprintDefinition(defId);
+                if (BpDef == null)
                 {
                     MyLog.Default.WriteLine($"[ModAdjuster] Blueprint {bp.BlueprintName} not found!");
                     continue;
@@ -185,27 +203,27 @@ namespace ModAdjuster
                     switch (action.Action)
                     {
                         case BPMod.InsertPrerequisite:
-                            InsertItem(action.Index, MyDefinitionId.Parse(action.Item), (MyFixedPoint)action.Amount, bpDef.Prerequisites, out bpDef.Prerequisites);
+                            InsertItem(action.Index, MyDefinitionId.Parse(action.Item), (MyFixedPoint)action.Amount, BpDef.Prerequisites, out BpDef.Prerequisites);
                             break;
 
                         case BPMod.InsertResult:
-                            InsertItem(action.Index, MyDefinitionId.Parse(action.Item), (MyFixedPoint)action.Amount, bpDef.Results, out bpDef.Results);
+                            InsertItem(action.Index, MyDefinitionId.Parse(action.Item), (MyFixedPoint)action.Amount, BpDef.Results, out BpDef.Results);
                             break;
 
                         case BPMod.ReplacePrerequisite:
-                            bpDef.Prerequisites[action.Index].Id = MyDefinitionId.Parse(action.Item);
+                            BpDef.Prerequisites[action.Index].Id = MyDefinitionId.Parse(action.Item);
                             break;
 
                         case BPMod.ReplaceResult:
-                            bpDef.Results[action.Index].Id = MyDefinitionId.Parse(action.Item);
+                            BpDef.Results[action.Index].Id = MyDefinitionId.Parse(action.Item);
                             break;
 
                         case BPMod.ChangeAmountPrerequisite:
-                            bpDef.Prerequisites[action.Index].Amount = (MyFixedPoint)action.Amount;
+                            BpDef.Prerequisites[action.Index].Amount = (MyFixedPoint)action.Amount;
                             break;
 
                         case BPMod.ChangeAmountResult:
-                            bpDef.Results[action.Index].Amount = (MyFixedPoint)action.Amount;
+                            BpDef.Results[action.Index].Amount = (MyFixedPoint)action.Amount;
                             break;
                     }
                 }
@@ -215,7 +233,7 @@ namespace ModAdjuster
 
         internal void ReplaceComponent(int index, MyComponentDefinition newComp, int newCount)
         {
-            var comp = blockDef.Components[index];
+            var comp = BlockDef.Components[index];
             int oldCount = comp.Count;
             float intDiff;
             float massDiff;
@@ -224,7 +242,7 @@ namespace ModAdjuster
                 intDiff = newComp.MaxIntegrity * newCount - comp.Definition.MaxIntegrity * oldCount;
                 massDiff = newComp.Mass * newCount - comp.Definition.Mass * oldCount;
 
-                blockDef.Components[index].Count = newCount;
+                BlockDef.Components[index].Count = newCount;
             }
             else
             {
@@ -235,10 +253,10 @@ namespace ModAdjuster
             comp.Definition = newComp;
             comp.DeconstructItem = newComp;
 
-            blockDef.MaxIntegrity += intDiff;
-            blockDef.Mass += massDiff;
+            BlockDef.MaxIntegrity += intDiff;
+            BlockDef.Mass += massDiff;
 
-            SetRatios(blockDef.CriticalGroup);
+            SetRatios(BlockDef.CriticalGroup);
         }
 
         internal void InsertComponent(int index, MyComponentDefinition comp, int count)
@@ -246,48 +264,48 @@ namespace ModAdjuster
             float intDiff = comp.MaxIntegrity * count;
             float massDiff = comp.Mass * count;
 
-            if (index <= blockDef.CriticalGroup)
+            if (index <= BlockDef.CriticalGroup)
             {
-                blockDef.CriticalGroup += 1;
+                BlockDef.CriticalGroup += 1;
             }
 
-            blockDef.MaxIntegrity += intDiff;
-            blockDef.Mass += massDiff;
+            BlockDef.MaxIntegrity += intDiff;
+            BlockDef.Mass += massDiff;
 
-            var newComps = new MyCubeBlockDefinition.Component[blockDef.Components.Length + 1];
+            var newComps = new MyCubeBlockDefinition.Component[BlockDef.Components.Length + 1];
 
             int i;
             for (i = 0; i < newComps.Length; i++)
             {
                 if (i < index)
-                    newComps[i] = blockDef.Components[i];
+                    newComps[i] = BlockDef.Components[i];
                 else if (i == index)
                     newComps[i] = new MyCubeBlockDefinition.Component();
                 else
-                    newComps[i] = blockDef.Components[i - 1];
+                    newComps[i] = BlockDef.Components[i - 1];
             }
             newComps[index].Definition = comp;
             newComps[index].DeconstructItem = comp;
             newComps[index].Count = count;
 
-            blockDef.Components = newComps;
+            BlockDef.Components = newComps;
 
-            SetRatios(blockDef.CriticalGroup);
+            SetRatios(BlockDef.CriticalGroup);
         }
 
         internal void ChangeCompCount(int index, int newCount)
         {
-            var comp = blockDef.Components[index];
+            var comp = BlockDef.Components[index];
             int oldCount = comp.Count;
             float intDiff = comp.Definition.MaxIntegrity * (newCount - oldCount);
             float massDiff = comp.Definition.Mass * (newCount - oldCount);
 
             comp.Count = newCount;
 
-            blockDef.MaxIntegrity += intDiff;
-            blockDef.Mass += massDiff;
+            BlockDef.MaxIntegrity += intDiff;
+            BlockDef.Mass += massDiff;
 
-            SetRatios(blockDef.CriticalGroup);
+            SetRatios(BlockDef.CriticalGroup);
         }
 
         internal void SetRatios(int criticalIndex)
@@ -296,7 +314,7 @@ namespace ModAdjuster
             var ownershipIntegrity = 0f;
             for (var index = 0; index <= criticalIndex; index++)
             {
-                var component = blockDef.Components[index];
+                var component = BlockDef.Components[index];
                 if (ownershipIntegrity == 0f && component.Definition.Id.SubtypeName == "Computer")
                 {
                     ownershipIntegrity = criticalIntegrity + component.Definition.MaxIntegrity;
@@ -308,14 +326,14 @@ namespace ModAdjuster
                 }
             }
 
-            blockDef.CriticalIntegrityRatio = criticalIntegrity / blockDef.MaxIntegrity;
-            blockDef.OwnershipIntegrityRatio = ownershipIntegrity / blockDef.MaxIntegrity;
+            BlockDef.CriticalIntegrityRatio = criticalIntegrity / BlockDef.MaxIntegrity;
+            BlockDef.OwnershipIntegrityRatio = ownershipIntegrity / BlockDef.MaxIntegrity;
 
-            var count = blockDef.BuildProgressModels.Length;
+            var count = BlockDef.BuildProgressModels.Length;
             for (var index = 0; index < count; index++)
             {
                 var buildPercent = (index + 1f) / count;
-                blockDef.BuildProgressModels[index].BuildRatioUpperBound = buildPercent * blockDef.CriticalIntegrityRatio;
+                BlockDef.BuildProgressModels[index].BuildRatioUpperBound = buildPercent * BlockDef.CriticalIntegrityRatio;
             }
         }
 
@@ -341,9 +359,9 @@ namespace ModAdjuster
 
         internal void BeforeStartStuff()
         {
-            foreach (var blockDef in resist.Keys)
+            foreach (var blockDef in Resists.Keys)
             {
-                blockDef.GeneralDamageMultiplier = resist[blockDef];
+                blockDef.GeneralDamageMultiplier = Resists[blockDef];
             } 
         }
 
