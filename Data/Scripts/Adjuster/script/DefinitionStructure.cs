@@ -39,6 +39,7 @@
                     ChangeCutOutRadius,
                     ChangeThrustForce,
                     ChangeThrustPowerConsumption,
+                    ChangeGyroForce,
                     ChangeIcon,
                 }
             }

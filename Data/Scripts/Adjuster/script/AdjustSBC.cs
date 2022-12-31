@@ -179,6 +179,9 @@ namespace ModAdjuster
                             case BlockMod.ChangeThrustPowerConsumption:
                                 (BlockDef as MyThrustDefinition).MaxPowerConsumption = action.Value;
                                 break;
+                            case BlockMod.ChangeGyroForce:
+                                (BlockDef as MyGyroDefinition).ForceMagnitude = action.Value;
+                                break;
                         }
                     }
                 }
