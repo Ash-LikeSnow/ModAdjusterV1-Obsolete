@@ -63,6 +63,18 @@ namespace ModAdjuster
                     },
                 }
             },
+
+            new BlueprintDef()
+            {
+                BlueprintName = "MyObjectBuilder_BlueprintDefinition/Concrete", // Name of the blueprint to modify
+                BPActions = new[] // List of modifications to make. Can be as many or few as desired
+                {
+                    new BPAction
+                    {
+                        Action = ChangeBpPublicity, // Sets <Public> to the opposite of its setting in sbc
+                    },
+                }
+            },
         };
     }
 }

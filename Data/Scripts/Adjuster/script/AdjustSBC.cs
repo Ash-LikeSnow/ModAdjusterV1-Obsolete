@@ -228,6 +228,9 @@ namespace ModAdjuster
                         case BPMod.ChangeAmountResult:
                             BpDef.Results[action.Index].Amount = (MyFixedPoint)action.Amount;
                             break;
+                        case BPMod.ChangeBpPublicity:
+                            BpDef.Public = !BpDef.Public;
+                            break;
                     }
                 }
 

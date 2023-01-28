@@ -64,7 +64,8 @@
                     ReplacePrerequisite,
                     ReplaceResult,
                     ChangeAmountPrerequisite,
-                    ChangeAmountResult
+                    ChangeAmountResult,
+                    ChangeBpPublicity
                 }
             }
 

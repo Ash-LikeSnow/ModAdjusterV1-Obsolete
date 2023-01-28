@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>.\</OutputPath>
+    <OutputPath>..\..\..\AppData\Roaming\SpaceEngineers\Mods\ModAdjusterGit\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -125,14 +125,13 @@
     <Compile Include="Data\Scripts\Adjuster\BlockDefinitions.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Data\Scripts\Adjuster\BlueprintDefinitions.cs" />
+    <Compile Include="Data\Scripts\Adjuster\BlueprintDefinitions.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\..\..\..\..\Documents\SE\SEWhitelistChecker.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
