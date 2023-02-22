@@ -115,6 +115,10 @@ namespace ModAdjuster
                                 ReplaceComponent(action.Index, comp, action.Count);
                                 break;
 
+                            case BlockMod.RemoveComponent:
+                                RemoveComponent(action.Index);
+                                break;
+
                             case BlockMod.ChangeComponentCount:
                                 ChangeCompCount(action.Index, action.Count);
                                 break;
@@ -221,6 +225,14 @@ namespace ModAdjuster
                             BpDef.Results[action.Index].Id = MyDefinitionId.Parse(action.Item);
                             break;
 
+                        case BPMod.RemovePrerequisite:
+                            RemoveItem(action.Index, BpDef.Prerequisites, out BpDef.Prerequisites);
+                            break;
+
+                        case BPMod.RemoveResult:
+                            RemoveItem(action.Index, BpDef.Results, out BpDef.Results);
+                            break;
+
                         case BPMod.ChangeAmountPrerequisite:
                             BpDef.Prerequisites[action.Index].Amount = (MyFixedPoint)action.Amount;
                             break;
@@ -235,34 +247,6 @@ namespace ModAdjuster
                 }
 
             }
-        }
-
-        internal void ReplaceComponent(int index, MyComponentDefinition newComp, int newCount)
-        {
-            var comp = BlockDef.Components[index];
-            int oldCount = comp.Count;
-            float intDiff;
-            float massDiff;
-            if (newCount > 0)
-            {
-                intDiff = newComp.MaxIntegrity * newCount - comp.Definition.MaxIntegrity * oldCount;
-                massDiff = newComp.Mass * newCount - comp.Definition.Mass * oldCount;
-
-                BlockDef.Components[index].Count = newCount;
-            }
-            else
-            {
-                intDiff = (newComp.MaxIntegrity - comp.Definition.MaxIntegrity) * oldCount;
-                massDiff = (newComp.Mass - comp.Definition.Mass) * oldCount;
-            }
-
-            comp.Definition = newComp;
-            comp.DeconstructItem = newComp;
-
-            BlockDef.MaxIntegrity += intDiff;
-            BlockDef.Mass += massDiff;
-
-            SetRatios(BlockDef.CriticalGroup);
         }
 
         internal void InsertComponent(int index, MyComponentDefinition comp, int count)
@@ -293,6 +277,64 @@ namespace ModAdjuster
             newComps[index].Definition = comp;
             newComps[index].DeconstructItem = comp;
             newComps[index].Count = count;
+
+            BlockDef.Components = newComps;
+
+            SetRatios(BlockDef.CriticalGroup);
+        }
+
+        internal void ReplaceComponent(int index, MyComponentDefinition newComp, int newCount)
+        {
+            var comp = BlockDef.Components[index];
+            int oldCount = comp.Count;
+            float intDiff;
+            float massDiff;
+            if (newCount > 0)
+            {
+                intDiff = newComp.MaxIntegrity * newCount - comp.Definition.MaxIntegrity * oldCount;
+                massDiff = newComp.Mass * newCount - comp.Definition.Mass * oldCount;
+
+                BlockDef.Components[index].Count = newCount;
+            }
+            else
+            {
+                intDiff = (newComp.MaxIntegrity - comp.Definition.MaxIntegrity) * oldCount;
+                massDiff = (newComp.Mass - comp.Definition.Mass) * oldCount;
+            }
+
+            comp.Definition = newComp;
+            comp.DeconstructItem = newComp;
+
+            BlockDef.MaxIntegrity += intDiff;
+            BlockDef.Mass += massDiff;
+
+            SetRatios(BlockDef.CriticalGroup);
+        }
+
+        internal void RemoveComponent(int index)
+        {
+            var comp = BlockDef.Components[index];
+            var def = comp.Definition;
+            var count = comp.Count;
+            float intDiff = def.MaxIntegrity * count;
+            float massDiff = def.Mass * count;
+
+            if (index <= BlockDef.CriticalGroup)
+            {
+                BlockDef.CriticalGroup -= 1;
+            }
+
+            BlockDef.MaxIntegrity -= intDiff;
+            BlockDef.Mass -= massDiff;
+
+            var newComps = new MyCubeBlockDefinition.Component[BlockDef.Components.Length - 1];
+
+            int i;
+            for (i = 0; i < newComps.Length; i++)
+            {
+                var j = i < index ? i : i + 1;
+                newComps[i] = BlockDef.Components[j];
+            }
 
             BlockDef.Components = newComps;
 
@@ -347,8 +389,7 @@ namespace ModAdjuster
         {
             var newItems = new MyBlueprintDefinitionBase.Item[items.Length + 1];
 
-            int i;
-            for (i = 0; i < newItems.Length; i++)
+            for (int i = 0; i < newItems.Length; i++)
             {
                 if (i < index)
                     newItems[i] = items[i];
@@ -360,6 +401,17 @@ namespace ModAdjuster
             newItems[index].Id = id;
             newItems[index].Amount = amount;
 
+            updatedItems = newItems;
+        }
+
+        internal void RemoveItem(int index, MyBlueprintDefinitionBase.Item[] items, out MyBlueprintDefinitionBase.Item[] updatedItems)
+        {
+            var newItems = new MyBlueprintDefinitionBase.Item[items.Length - 1];
+            for (int i = 0; i < newItems.Length; i++)
+            {
+                var j = i < index ? i : i + 1;
+                newItems[i] = items[j];
+            }
             updatedItems = newItems;
         }
 

@@ -29,6 +29,7 @@
                     ChangeResistance,
                     InsertComponent,
                     ReplaceComponent,
+                    RemoveComponent,
                     ChangeComponentCount,
                     ChangeComponentDeconstructId,
                     ChangeCriticalComponentIndex,
@@ -63,6 +64,8 @@
                     InsertResult,
                     ReplacePrerequisite,
                     ReplaceResult,
+                    RemovePrerequisite,
+                    RemoveResult,
                     ChangeAmountPrerequisite,
                     ChangeAmountResult,
                     ChangeBpPublicity
