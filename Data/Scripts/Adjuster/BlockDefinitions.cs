@@ -22,12 +22,12 @@ namespace ModAdjuster
                     },
                     new BlockAction
                     {
-                        Action = ChangeBlockName,
+                        Action = ChangeBlockName, // Change Display Name of the block
                         NewText = "New Block Name"
                     },
                     new BlockAction
                     {
-                        Action = ChangeBlockDescription,
+                        Action = ChangeBlockDescription, // Change the Description of the block
                         NewText = "New Block Description"
                     },
                     new BlockAction

@@ -73,6 +73,11 @@ namespace ModAdjuster
                     {
                         Action = ChangeBpPublicity, // Sets <Public> to the opposite of its setting in sbc
                     },
+                    new BPAction
+                    {
+                        Action = ChangeBpDisplayName, // Change the Display Name of the blueprint
+                        Item = "Hardened Concrete",
+                    }
                 }
             },
         };

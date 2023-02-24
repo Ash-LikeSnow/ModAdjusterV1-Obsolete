@@ -68,7 +68,35 @@
                     RemoveResult,
                     ChangeAmountPrerequisite,
                     ChangeAmountResult,
-                    ChangeBpPublicity
+                    ChangeBpPublicity,
+                    ChangeBpDisplayName
+                }
+            }
+
+        }
+
+        public struct PhysicalItemDef
+        {
+            internal string ItemName;
+            internal ItemAction[] ItemActions;
+
+            public struct ItemAction
+            {
+                internal ItemMod Action;
+                internal string Text;
+                internal int Count;
+                internal float Value;
+
+                public enum ItemMod
+                {
+                    DisableItemDefinition,
+                    ChangeItemPublicity,
+                    ChangeItemName,
+                    ChangeItemDescription,
+                    ChangeIcon,
+                    ChangeMass,
+                    ChangeVolume,
+                    ChangeMaxIntegrity,
                 }
             }
 

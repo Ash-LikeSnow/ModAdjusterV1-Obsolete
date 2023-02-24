@@ -6,6 +6,7 @@ using VRage.Game.Components;
 using VRage.Utils;
 using static ModAdjuster.DefinitionStructure.BlockDef.BlockAction;
 using static ModAdjuster.DefinitionStructure.BlueprintDef.BPAction;
+using static ModAdjuster.DefinitionStructure.PhysicalItemDef.ItemAction;
 
 namespace ModAdjuster
 {
@@ -14,17 +15,20 @@ namespace ModAdjuster
     {
         internal BlockDefinitions BlockDefs = new BlockDefinitions();
         internal BlueprintDefinitions BlueprintDefs = new BlueprintDefinitions();
+        internal ItemDefinitions ItemDefs = new ItemDefinitions();
 
         internal MyCubeBlockDefinition BlockDef = new MyCubeBlockDefinition();
         internal MyBlueprintDefinitionBase BpDef;
+        internal MyPhysicalItemDefinition ItemDef;
 
         internal Dictionary<MyCubeBlockDefinition, float> Resists = new Dictionary<MyCubeBlockDefinition, float>();
 
         public override void LoadData()
         {
             MyLog.Default.WriteLine($"[ModAdjuster] Starting changes!");
-            AdjustBlocks();
+            AdjustItems();
             AdjustBlueprints();
+            AdjustBlocks();
             MyLog.Default.WriteLine($"[ModAdjuster] Changes complete!");
         }
 
@@ -240,12 +244,73 @@ namespace ModAdjuster
                         case BPMod.ChangeAmountResult:
                             BpDef.Results[action.Index].Amount = (MyFixedPoint)action.Amount;
                             break;
+
                         case BPMod.ChangeBpPublicity:
                             BpDef.Public = !BpDef.Public;
+                            break;
+
+                        case BPMod.ChangeBpDisplayName:
+                            BpDef.DisplayNameEnum = null;
+                            BpDef.DisplayNameString = action.Item;
                             break;
                     }
                 }
 
+            }
+        }
+
+        internal void AdjustItems()
+        {
+            foreach (var item in ItemDefs.Definitions)
+            {
+                var defId = MyDefinitionId.Parse(item.ItemName);
+                ItemDef = MyDefinitionManager.Static.GetPhysicalItemDefinition(defId);
+                if (ItemDef == null)
+                {
+                    MyLog.Default.WriteLine($"[ModAdjuster] Physical Item {item.ItemName} not found!");
+                    continue;
+                }
+
+                foreach (var action in item.ItemActions)
+                {
+                    switch (action.Action)
+                    {
+                        case ItemMod.DisableItemDefinition:
+                            ItemDef.Enabled = false;
+                            break;
+
+                        case ItemMod.ChangeItemPublicity:
+                            ItemDef.Public = !ItemDef.Public;
+                            break;
+
+                        case ItemMod.ChangeItemName:
+                            ItemDef.DisplayNameEnum = null;
+                            ItemDef.DisplayNameString = action.Text;
+                            break;
+
+                        case ItemMod.ChangeItemDescription:
+                            ItemDef.DescriptionEnum = null;
+                            ItemDef.DescriptionString = action.Text;
+                            break;
+
+                        case ItemMod.ChangeIcon:
+                            ItemDef.Icons = new string[] { action.Text };
+                            break;
+
+                        case ItemMod.ChangeMass:
+                            ItemDef.Mass = action.Value;
+                            break;
+
+                        case ItemMod.ChangeVolume:
+                            ItemDef.Volume = action.Value;
+                            break;
+
+                        case ItemMod.ChangeMaxIntegrity:
+                            (ItemDef as MyComponentDefinition).MaxIntegrity = action.Count;
+                            break;
+
+                    }
+                }
             }
         }
 
