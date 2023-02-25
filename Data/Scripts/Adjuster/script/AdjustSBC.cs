@@ -253,6 +253,10 @@ namespace ModAdjuster
                             BpDef.DisplayNameEnum = null;
                             BpDef.DisplayNameString = action.Item;
                             break;
+
+                        case BPMod.ChangeProductionTime:
+                            BpDef.BaseProductionTimeInSeconds = action.Amount;
+                            break;
                     }
                 }
 

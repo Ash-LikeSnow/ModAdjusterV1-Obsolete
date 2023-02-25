@@ -69,7 +69,8 @@
                     ChangeAmountPrerequisite,
                     ChangeAmountResult,
                     ChangeBpPublicity,
-                    ChangeBpDisplayName
+                    ChangeBpDisplayName,
+                    ChangeProductionTime,
                 }
             }
 

@@ -77,7 +77,12 @@ namespace ModAdjuster
                     {
                         Action = ChangeBpDisplayName, // Change the Display Name of the blueprint
                         Item = "Hardened Concrete",
-                    }
+                    },
+                    new BPAction
+                    {
+                        Action = ChangeProductionTime,
+                        Amount = 22.5f,
+                    },
                 }
             },
         };
