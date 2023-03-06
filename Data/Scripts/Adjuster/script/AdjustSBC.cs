@@ -21,6 +21,8 @@ namespace ModAdjuster
         internal MyBlueprintDefinitionBase BpDef;
         internal MyPhysicalItemDefinition ItemDef;
 
+        internal MyDefinitionId ScrapId = new MyDefinitionId(typeof(MyObjectBuilder_Ore), "Scrap");
+
         internal Dictionary<MyCubeBlockDefinition, float> Resists = new Dictionary<MyCubeBlockDefinition, float>();
 
         public override void LoadData()
@@ -42,11 +44,16 @@ namespace ModAdjuster
         internal void Clean()
         {
             BlockDefs.Definitions.Clear();
+            BlockDefs.DisabledBlocks.Clear();
             BlueprintDefs.Definitions.Clear();
+            ItemDefs.Definitions.Clear();
             BlockDefs = null;
             BlueprintDefs = null;
+            ItemDefs = null;
+
             BlockDef = null;
             BpDef = null;
+            ItemDef = null;
 
             Resists.Clear();
         }
@@ -195,6 +202,42 @@ namespace ModAdjuster
                 }
                 else MyLog.Default.WriteLine($"[ModAdjuster] Block {block.BlockName} not found!");
             }
+
+            if (string.IsNullOrEmpty(BlockDefs.AdminComponent) || BlockDefs.DisabledBlocks == null || BlockDefs.DisabledBlocks.Count == 0)
+                return;
+
+            MyDefinitionId compId;
+            if (!MyDefinitionId.TryParse(BlockDefs.AdminComponent, out compId))
+            {
+                MyLog.Default.WriteLine($"[ModAdjuster] {BlockDefs.AdminComponent} does not contain a valid TypeId!");
+                return;
+            }
+            var adminComp = MyDefinitionManager.Static.GetComponentDefinition(compId);
+            if (adminComp == null)
+            {
+                MyLog.Default.WriteLine($"[ModAdjuster] {BlockDefs.AdminComponent} does not contain a valid SubtypeId!");
+                return;
+            }
+            var scrap = MyDefinitionManager.Static.GetPhysicalItemDefinition(ScrapId);
+
+            var found = 0;
+            for (int j = 0; j < BlockDefs.DisabledBlocks.Count; j++)
+            {
+                var block = BlockDefs.DisabledBlocks[j];
+                var defId = MyDefinitionId.Parse(block);
+                if (!MyDefinitionManager.Static.TryGetCubeBlockDefinition(defId, out BlockDef))
+                {
+                    MyLog.Default.WriteLine($"[ModAdjuster] Block {block} not found!");
+                    continue;
+                }
+
+                found++;
+                BlockDef.Enabled = false;
+                InsertComponent(0, adminComp, 1);
+                BlockDef.Components[0].DeconstructItem = scrap;
+
+            }
+            MyLog.Default.WriteLine($"[ModAdjuster] Disabled {found} block definitions.");
         }
 
         internal void AdjustBlueprints()
