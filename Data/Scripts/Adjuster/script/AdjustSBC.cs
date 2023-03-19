@@ -197,6 +197,12 @@ namespace ModAdjuster
                             case BlockMod.ChangeGyroForce:
                                 (BlockDef as MyGyroDefinition).ForceMagnitude = action.Value;
                                 break;
+                            case BlockMod.ChangeBroadcastRadius:
+                                if (BlockDef is MyRadioAntennaDefinition)
+                                    (BlockDef as MyRadioAntennaDefinition).MaxBroadcastRadius = action.Value;
+                                else (BlockDef as MyBeaconDefinition).MaxBroadcastRadius = action.Value;
+                                break;
+
                         }
                     }
                 }

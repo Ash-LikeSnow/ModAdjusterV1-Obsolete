@@ -42,6 +42,7 @@
                     ChangeThrustPowerConsumption,
                     ChangeGyroForce,
                     ChangeIcon,
+                    ChangeBroadcastRadius,
                 }
             }
         }
