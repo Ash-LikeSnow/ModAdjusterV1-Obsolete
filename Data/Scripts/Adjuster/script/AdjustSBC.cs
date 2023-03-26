@@ -1,4 +1,5 @@
 ﻿using Sandbox.Definitions;
+using Sandbox.Game.EntityComponents;
 using System.Collections.Generic;
 using VRage;
 using VRage.Game;
@@ -10,7 +11,7 @@ using static ModAdjuster.DefinitionStructure.PhysicalItemDef.ItemAction;
 
 namespace ModAdjuster
 {
-    [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
+    [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate, int.MaxValue - 1)]
     public class AdjustSBC : MySessionComponentBase
     {
         internal BlockDefinitions BlockDefs = new BlockDefinitions();
@@ -194,6 +195,14 @@ namespace ModAdjuster
                             case BlockMod.ChangeThrustPowerConsumption:
                                 (BlockDef as MyThrustDefinition).MaxPowerConsumption = action.Value;
                                 break;
+                            case BlockMod.ChangeThrustFuelId:
+                                MyDefinitionId fuelId;
+                                if (MyDefinitionId.TryParse(action.Component, out fuelId))
+                                    (BlockDef as MyThrustDefinition).FuelConverter.FuelId = fuelId;
+                                break;
+                            case BlockMod.ChangeThrustFuelEfficiency:
+                                (BlockDef as MyThrustDefinition).FuelConverter.Efficiency = action.Value;
+                                break;
                             case BlockMod.ChangeGyroForce:
                                 (BlockDef as MyGyroDefinition).ForceMagnitude = action.Value;
                                 break;
@@ -201,6 +210,9 @@ namespace ModAdjuster
                                 if (BlockDef is MyRadioAntennaDefinition)
                                     (BlockDef as MyRadioAntennaDefinition).MaxBroadcastRadius = action.Value;
                                 else (BlockDef as MyBeaconDefinition).MaxBroadcastRadius = action.Value;
+                                break;
+                            case BlockMod.ChangeLaserMaxRange:
+                                (BlockDef as MyLaserAntennaDefinition).MaxRange = action.Value;
                                 break;
 
                         }

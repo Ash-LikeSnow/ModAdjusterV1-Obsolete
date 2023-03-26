@@ -133,6 +133,36 @@ namespace ModAdjuster
                 }
             },
 
+
+            new BlockDef()
+            {
+                BlockName = "MyObjectBuilder_RadioAntenna/LargeBlockRadioAntenna",
+                BlockActions = new[]
+                {
+                    // This modification is specific to beacons and antennae
+                    new BlockAction
+                    {
+                        Action = ChangeBroadcastRadius,
+                        Value = 10000f
+                    }
+                }
+            },
+
+
+            new BlockDef()
+            {
+                BlockName = "MyObjectBuilder_LaserAntenna/LargeBlockLaserAntenna",
+                BlockActions = new[]
+                {
+                    // This modification is specific to laser antennae
+                    new BlockAction
+                    {
+                        Action = ChangeLaserMaxRange,
+                        Value = 10000f
+                    }
+                }
+            },
+
             new BlockDef()
             {
                 BlockName = "MyObjectBuilder_Drill/HeavyImpactDrillLarge",
@@ -149,6 +179,36 @@ namespace ModAdjuster
                         Action = ChangeCutOutRadius, // Set the mining radius of a Ship Drill
                         Value = 7.5f
                     }
+                }
+            },
+
+
+            new BlockDef()
+            {
+                BlockName = "MyObjectBuilder_Thrust/SmallBlockSmallThrust",
+                BlockActions = new[]
+                {
+                    // These modifications are specific to thrusters
+                    new BlockAction
+                    {
+                        Action = ChangeThrustForce,
+                        Value = 10000f
+                    },
+                    new BlockAction
+                    {
+                        Action = ChangeThrustPowerConsumption,
+                        Value = 0.1f
+                    },
+                    new BlockAction
+                    {
+                        Action = ChangeThrustFuelId,
+                        Component = "MyObjectBuilder_GasProperties/Oxygen"
+                    },
+                    new BlockAction
+                    {
+                        Action = ChangeThrustFuelEfficiency,
+                        Value = 5f
+                    },
                 }
             },
 

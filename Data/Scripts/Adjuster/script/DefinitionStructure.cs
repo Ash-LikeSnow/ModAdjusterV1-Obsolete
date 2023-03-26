@@ -27,12 +27,15 @@
                     ChangeBuildTime,
                     ChangeDeformationRatio,
                     ChangeResistance,
+                    ChangeIcon,
+
                     InsertComponent,
                     ReplaceComponent,
                     RemoveComponent,
                     ChangeComponentCount,
                     ChangeComponentDeconstructId,
                     ChangeCriticalComponentIndex,
+
                     ChangeFuelMultiplier,
                     ChangeMaxPowerOutput,
                     ChangeUpgradeModifier,
@@ -40,9 +43,11 @@
                     ChangeCutOutRadius,
                     ChangeThrustForce,
                     ChangeThrustPowerConsumption,
+                    ChangeThrustFuelId,
+                    ChangeThrustFuelEfficiency,
                     ChangeGyroForce,
-                    ChangeIcon,
                     ChangeBroadcastRadius,
+                    ChangeLaserMaxRange,
                 }
             }
         }
