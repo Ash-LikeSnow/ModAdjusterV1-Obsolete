@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using VRage;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.ObjectBuilders;
 using VRage.Utils;
 using static ModAdjuster.DefinitionStructure.BlockDef.BlockAction;
 using static ModAdjuster.DefinitionStructure.BlueprintDef.BPAction;
@@ -72,7 +73,7 @@ namespace ModAdjuster
                         MyComponentDefinition comp = null;
                         MyPhysicalItemDefinition item = null;
 
-                        if (action.Component != null)
+                        if (action.Component != null && action.Action != BlockMod.ChangeThrustFuelId)
                         {
                             if (!MyDefinitionId.TryParse(action.Component, out id))
                             {
@@ -198,7 +199,7 @@ namespace ModAdjuster
                             case BlockMod.ChangeThrustFuelId:
                                 MyDefinitionId fuelId;
                                 if (MyDefinitionId.TryParse(action.Component, out fuelId))
-                                    (BlockDef as MyThrustDefinition).FuelConverter.FuelId = fuelId;
+                                    (BlockDef as MyThrustDefinition).FuelConverter.FuelId = (SerializableDefinitionId)fuelId;
                                 break;
                             case BlockMod.ChangeThrustFuelEfficiency:
                                 (BlockDef as MyThrustDefinition).FuelConverter.Efficiency = action.Value;

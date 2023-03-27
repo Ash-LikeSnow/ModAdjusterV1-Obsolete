@@ -7,11 +7,11 @@ namespace ModAdjuster
 {
     public class BlockDefinitions
     {
-        public string AdminComponent = "MyObjectBuilder_Component/SomeComponment"; // Component to insert into disabled blocks to prevent building from projection
+        public string AdminComponent = "Component/SomeComponment"; // Component to insert into disabled blocks to prevent building from projection
         public List<string> DisabledBlocks = new List<string>() // List of blocks to disable
         {
-            "MyObjectBuilder_WindTurbine/HugeWindTurbine",
-            "MyObjectBuilder_OxygenFarm/LargeBlockOxygenFarm",
+            "WindTurbine/HugeWindTurbine",
+            "OxygenFarm/LargeBlockOxygenFarm",
         };
 
         public List<BlockDef> Definitions = new List<BlockDef>()
@@ -19,7 +19,7 @@ namespace ModAdjuster
             // List of blocks to modify. Can be as many or few as desired
             new BlockDef()
             {
-                BlockName = "MyObjectBuilder_WindTurbine/HugeWindTurbine", // Name of the block to modify. Format is "MyObjectBuilder_Type/Subtype" in the same format as BlockVariantGroups
+                BlockName = "WindTurbine/HugeWindTurbine", // Name of the block to modify. Format is "MyObjectBuilder_Type/Subtype" in the same format as BlockVariantGroups
                 BlockActions = new[] // List of modifications to make. Can be as many or few as desired
                 {
                     // The following modifications can be used on any type of block
@@ -68,14 +68,14 @@ namespace ModAdjuster
                     new BlockAction
                     {
                         Action = InsertComponent, // Inserts the given number of the given component at the given index of a block's component list
-                        Component = "MyObjectBuilder_Component/Superconductor",
+                        Component = "Component/Superconductor",
                         Index = 4,
                         Count = 20
                     },
                     new BlockAction
                     {
                         Action = ReplaceComponent, // Replaces the component at the given index with a new component
-                        Component = "MyObjectBuilder_Component/Construction",
+                        Component = "Component/Construction",
                         Index = 1,
                         Count = 32 // This field is optional. If not specified or set to 0, the component count will stay the same
                     },
@@ -88,7 +88,7 @@ namespace ModAdjuster
                     new BlockAction
                     {
                         Action = ChangeComponentDeconstructId, // Sets what the component at the given index grinds down into.
-                        Component = "MyObjectBuilder_Ore/Scrap",
+                        Component = "Ore/Scrap",
                         Index = 5
                     },
                     new BlockAction
@@ -101,7 +101,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "MyObjectBuilder_HydrogenEngine/LG_Fuelcell_T0",
+                BlockName = "HydrogenEngine/LG_Fuelcell_T0",
                 BlockActions = new[]
                 {
                     // These modifications are specific to power production blocks
@@ -121,7 +121,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "MyObjectBuilder_UpgradeModule/MA_at_upgrade_productivity",
+                BlockName = "UpgradeModule/MA_at_upgrade_productivity",
                 BlockActions = new[]
                 {
                     // This modification is specific to upgrade modules
@@ -136,7 +136,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "MyObjectBuilder_RadioAntenna/LargeBlockRadioAntenna",
+                BlockName = "RadioAntenna/LargeBlockRadioAntenna",
                 BlockActions = new[]
                 {
                     // This modification is specific to beacons and antennae
@@ -151,7 +151,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "MyObjectBuilder_LaserAntenna/LargeBlockLaserAntenna",
+                BlockName = "LaserAntenna/LargeBlockLaserAntenna",
                 BlockActions = new[]
                 {
                     // This modification is specific to laser antennae
@@ -165,7 +165,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "MyObjectBuilder_Drill/HeavyImpactDrillLarge",
+                BlockName = "Drill/HeavyImpactDrillLarge",
                 BlockActions = new[]
                 {
                     // These modifications are specific to ship tools
@@ -185,7 +185,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "MyObjectBuilder_Thrust/SmallBlockSmallThrust",
+                BlockName = "Thrust/SmallBlockSmallThrust",
                 BlockActions = new[]
                 {
                     // These modifications are specific to thrusters
@@ -202,7 +202,7 @@ namespace ModAdjuster
                     new BlockAction
                     {
                         Action = ChangeThrustFuelId,
-                        Component = "MyObjectBuilder_GasProperties/Oxygen"
+                        Component = "GasProperties/Hydrogen"
                     },
                     new BlockAction
                     {

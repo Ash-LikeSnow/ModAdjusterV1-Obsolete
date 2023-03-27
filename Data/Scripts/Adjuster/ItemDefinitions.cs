@@ -11,7 +11,7 @@ namespace ModAdjuster
         {
             new PhysicalItemDef()
             {
-                ItemName = "MyObjectBuilder_GasContainerObject/HydrogenBottle",
+                ItemName = "GasContainerObject/HydrogenBottle",
                 ItemActions = new[]
                 {
                     new ItemAction()
@@ -23,7 +23,7 @@ namespace ModAdjuster
 
             new PhysicalItemDef()
             {
-                ItemName = "MyObjectBuilder_Component/Superconductor",
+                ItemName = "Component/Superconductor",
                 ItemActions = new[]
                 {
                     new ItemAction()
@@ -56,7 +56,7 @@ namespace ModAdjuster
 
             new PhysicalItemDef()
             {
-                ItemName = "MyObjectBuilder_PhysicalGunObject/UltimateAutomaticRifleItem",
+                ItemName = "PhysicalGunObject/UltimateAutomaticRifleItem",
                 ItemActions = new[]
                 {
                     new ItemAction()

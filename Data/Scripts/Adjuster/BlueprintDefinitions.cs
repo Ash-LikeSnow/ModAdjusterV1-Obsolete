@@ -12,7 +12,7 @@ namespace ModAdjuster
             // List of blueprints to modify. Can be as many or few as desired
             new BlueprintDef()
             {
-                BlueprintName = "MyObjectBuilder_BlueprintDefinition/40mmATLASBP", // Name of the blueprint to modify
+                BlueprintName = "BlueprintDefinition/40mmATLASBP", // Name of the blueprint to modify
                 BPActions = new[] // List of modifications to make. Can be as many or few as desired
                 {
                     new BPAction
@@ -25,13 +25,13 @@ namespace ModAdjuster
                     {
                         Action = ReplacePrerequisite, // Replace the required item at the given index with a new item
                         Index = 2,
-                        Item = "MyObjectBuilder_Ingot/Cobalt"
+                        Item = "Ingot/Cobalt"
                     },
                     new BPAction
                     {
                         Action = InsertPrerequisite, //Insert the given amount of a new required item at the given index
                         Index = 3,
-                        Item = "MyObjectBuilder_Ingot/Platinum",
+                        Item = "Ingot/Platinum",
                         Amount = 5f
                     },
                 }
@@ -39,7 +39,7 @@ namespace ModAdjuster
 
             new BlueprintDef()
             {
-                BlueprintName = "MyObjectBuilder_BlueprintDefinition/StoneOreToIngot",
+                BlueprintName = "BlueprintDefinition/StoneOreToIngot",
                 BPActions = new[]
                 {
                     new BPAction
@@ -52,13 +52,13 @@ namespace ModAdjuster
                     {
                         Action = ReplaceResult, // Replace the produced item at the given index with a new item
                         Index = 3,
-                        Item = "MyObjectBuilder_Ingot/Cobalt"
+                        Item = "Ingot/Cobalt"
                     },
                     new BPAction
                     {
                         Action = InsertResult, //Insert the given amount of a new produced item at the given index
                         Index = 4,
-                        Item = "MyObjectBuilder_Ingot/Silver",
+                        Item = "Ingot/Silver",
                         Amount = 1.5f
                     },
                 }
@@ -66,7 +66,7 @@ namespace ModAdjuster
 
             new BlueprintDef()
             {
-                BlueprintName = "MyObjectBuilder_BlueprintDefinition/Concrete", // Name of the blueprint to modify
+                BlueprintName = "BlueprintDefinition/Concrete", // Name of the blueprint to modify
                 BPActions = new[] // List of modifications to make. Can be as many or few as desired
                 {
                     new BPAction
