@@ -48,6 +48,9 @@
                     ChangeGyroForce,
                     ChangeBroadcastRadius,
                     ChangeLaserMaxRange,
+                    ChangeOperationalPowerConsumption,
+                    ChangeIcePerSecond,
+                    ChangeIceToGasRatio,
                 }
             }
         }

@@ -215,6 +215,24 @@ namespace ModAdjuster
                             case BlockMod.ChangeLaserMaxRange:
                                 (BlockDef as MyLaserAntennaDefinition).MaxRange = action.Value;
                                 break;
+                            case BlockMod.ChangeOperationalPowerConsumption:
+                                (BlockDef as MyProductionBlockDefinition).OperationalPowerConsumption = action.Value;
+                                break;
+                            case BlockMod.ChangeIcePerSecond:
+                                (BlockDef as MyOxygenGeneratorDefinition).IceConsumptionPerSecond = action.Value;
+                                break;
+                            case BlockMod.ChangeIceToGasRatio:
+                                var gases = (BlockDef as MyOxygenGeneratorDefinition).ProducedGases;
+                                for (int j = 0; j < gases.Count; j++)
+                                {
+                                    var gas = gases[j];
+                                    if (gas.Id.SubtypeName != action.NewText)
+                                        continue;
+
+                                    gas.IceToGasRatio = action.Value;
+                                    break;
+                                }
+                                break;
 
                         }
                     }

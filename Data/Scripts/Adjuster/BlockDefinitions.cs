@@ -7,11 +7,11 @@ namespace ModAdjuster
 {
     public class BlockDefinitions
     {
-        public string AdminComponent = "Component/SomeComponment"; // Component to insert into disabled blocks to prevent building from projection
+        public string AdminComponent = "Component/ExampleComponent"; // Component to insert into disabled blocks to prevent building from projection
         public List<string> DisabledBlocks = new List<string>() // List of blocks to disable
         {
-            "WindTurbine/HugeWindTurbine",
-            "OxygenFarm/LargeBlockOxygenFarm",
+            "CubeBlock/ExampleArmorBlock",
+            "OxygenFarm/ExampleOxygenFarm",
         };
 
         public List<BlockDef> Definitions = new List<BlockDef>()
@@ -19,7 +19,7 @@ namespace ModAdjuster
             // List of blocks to modify. Can be as many or few as desired
             new BlockDef()
             {
-                BlockName = "WindTurbine/HugeWindTurbine", // Name of the block to modify. Format is "MyObjectBuilder_Type/Subtype" in the same format as BlockVariantGroups
+                BlockName = "WindTurbine/ExampleWindTurbine", // Name of the block to modify. Format is "MyObjectBuilder_Type/Subtype" in the same format as BlockVariantGroups
                 BlockActions = new[] // List of modifications to make. Can be as many or few as desired
                 {
                     // The following modifications can be used on any type of block
@@ -101,7 +101,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "HydrogenEngine/LG_Fuelcell_T0",
+                BlockName = "HydrogenEngine/ExampleHydrogenEngine",
                 BlockActions = new[]
                 {
                     // These modifications are specific to power production blocks
@@ -121,7 +121,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "UpgradeModule/MA_at_upgrade_productivity",
+                BlockName = "UpgradeModule/ExampleUpgradeModule",
                 BlockActions = new[]
                 {
                     // This modification is specific to upgrade modules
@@ -136,7 +136,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "RadioAntenna/LargeBlockRadioAntenna",
+                BlockName = "RadioAntenna/ExampleRadioAntenna",
                 BlockActions = new[]
                 {
                     // This modification is specific to beacons and antennae
@@ -151,7 +151,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "LaserAntenna/LargeBlockLaserAntenna",
+                BlockName = "LaserAntenna/ExampleLaserAntenna",
                 BlockActions = new[]
                 {
                     // This modification is specific to laser antennae
@@ -165,7 +165,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "Drill/HeavyImpactDrillLarge",
+                BlockName = "Drill/ExampleDrill",
                 BlockActions = new[]
                 {
                     // These modifications are specific to ship tools
@@ -185,7 +185,7 @@ namespace ModAdjuster
 
             new BlockDef()
             {
-                BlockName = "Thrust/SmallBlockSmallThrust",
+                BlockName = "Thrust/ExampleThruster",
                 BlockActions = new[]
                 {
                     // These modifications are specific to thrusters
@@ -209,6 +209,30 @@ namespace ModAdjuster
                         Action = ChangeThrustFuelEfficiency,
                         Value = 5f
                     },
+                }
+            },
+
+            new BlockDef()
+            {
+                BlockName = "OxygenGenerator/ExampleOxygenGenerator",
+                BlockActions = new[]
+                {
+                    new BlockAction
+                    {
+                        Action = ChangeOperationalPowerConsumption, // Set the working power consumption of any production block (assembler, refinery, gas generator, tank)
+                        Value = 1.5f
+                    },
+                    new BlockAction
+                    {
+                        Action = ChangeIcePerSecond, // Set the ice consumption rate of a gas generator
+                        Value = 7.5f
+                    },
+                    new BlockAction
+                    {
+                        Action = ChangeIceToGasRatio, // Set the ice to gas ratio of a gas generator for the specified gas
+                        NewText = "Oxygen", // SubtypeId of the gas to change the ratio for
+                        Value = 12.5f
+                    }
                 }
             },
 
