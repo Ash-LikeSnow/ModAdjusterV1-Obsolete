@@ -51,6 +51,7 @@
                     ChangeOperationalPowerConsumption,
                     ChangeIcePerSecond,
                     ChangeIceToGasRatio,
+                    ChangeTankCapacity,
                 }
             }
         }

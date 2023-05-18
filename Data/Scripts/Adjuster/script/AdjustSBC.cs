@@ -233,6 +233,10 @@ namespace ModAdjuster
                                     break;
                                 }
                                 break;
+                            case BlockMod.ChangeTankCapacity:
+                                (BlockDef as MyGasTankDefinition).Capacity = action.Value;
+                                (BlockDef as MyGasTankDefinition).GasExplosionNeededVolumeToReachMaxRadius = action.Value;
+                                break;
 
                         }
                     }
