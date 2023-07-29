@@ -28,6 +28,7 @@
                     ChangeDeformationRatio,
                     ChangeResistance,
                     ChangeIcon,
+                    ChangeModel,
 
                     InsertComponent,
                     ReplaceComponent,
