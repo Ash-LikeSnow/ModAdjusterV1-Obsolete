@@ -1,5 +1,1 @@
-# ModAdjuster
-Framework for modifying content of Space Engineers mods on load.
-
-To set this up, copy the Data folder into your mod.
-Create definitions for blocks and blueprints to modify in the BlockDefinitions and BlueprintDefinitions files respectively.
+**This utility is now obsolete. Please see https://steamcommunity.com/sharedfiles/filedetails/?id=3017795356 for the new version.**
