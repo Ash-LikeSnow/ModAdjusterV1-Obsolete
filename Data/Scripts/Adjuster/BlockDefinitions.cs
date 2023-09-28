@@ -235,7 +235,19 @@ namespace ModAdjuster
                     }
                 }
             },
-
+            
+            new BlockDef()
+            {
+                BlockName = "OxygenTank/ExampleOxygenTank",
+                BlockActions = new[]
+                {
+                    new BlockAction
+                    {
+                        Action = ChangeTankCapacity, // Set the Tank Capacity and also adjust the explosion to match the new capacity
+                        Value = 3000000f
+                    }
+                }
+            },
         };
 
     }
